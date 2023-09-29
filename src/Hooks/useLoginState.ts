@@ -17,7 +17,7 @@ function useLoginState() {
     return {
         login: function (userGameID: string, password: string): Promise<AxiosResponse> {
             return new Promise<AxiosResponse>((resolve, reject) => {
-                AxiosManager.get(UrlConfig.backendUrl + "/api/login", {
+                AxiosManager.get(UrlConfig.backendUrl + "/login", {
                     id: userGameID,
                     password: password,
                 }, {}).then(r => {
@@ -41,7 +41,12 @@ function useLoginState() {
                 userID: userID,
                 userAuthority: userAuthority
             }
+        },
+        setData:(a:any,v:any)=>{
+            setUserId(a);
+            setUserAuthority(v);
         }
+
     }
 }
 
