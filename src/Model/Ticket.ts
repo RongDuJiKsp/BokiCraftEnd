@@ -1,16 +1,20 @@
-import StatusCodeEnum from "../Enums/StatusCodeEnum";
+import ProcessingStateEnum from "../Enums/ProcessingStateEnum";
 
 class Ticket {
     submitUserName: string;
     context: string;
-    pendingStatus: StatusCodeEnum;
-    response:string;
+    submitTime: string;
+    pendingStatus: ProcessingStateEnum;
+    response: string;
+    responseTime: string;
 
-    constructor(submitUserName: string, context: string, pendingStatus: StatusCodeEnum) {
+    constructor(submitUserName: string, context: string, submitTime: string) {
         this.submitUserName = submitUserName;
-        this.pendingStatus = pendingStatus;
+        this.pendingStatus = ProcessingStateEnum.Unsolved;
         this.context = context;
-        this.response="";
+        this.submitTime = submitTime;
+        this.response = "";
+        this.responseTime = "";
     }
 
 }

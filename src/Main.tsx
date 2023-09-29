@@ -1,5 +1,6 @@
+import SubmitTicketComponent from "./Component/SubmitTicketComponent";
 
 const Main = () => {
-    return (<div>Hello</div>)
+    return (<SubmitTicketComponent></SubmitTicketComponent>)
 }
 export default Main;
