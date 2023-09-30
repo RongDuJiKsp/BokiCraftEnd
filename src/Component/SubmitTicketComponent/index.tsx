@@ -10,7 +10,7 @@ const SubmitTicketComponent = () => {
     const Submit = () => {
         let data = new Ticket(form.getFieldValue("userName"), form.getFieldValue("context"), new Date().toString());
         console.log(data);
-        AxiosManager.post(UrlConfig.backendUrl + "/ticket", data, {}).then(r => {
+        AxiosManager.post(UrlConfig.backendUrl + "/api/ticket", data, {}).then(r => {
             if (r.data === StatusCodeEnum.Success) APP.message.success("Submit Success").then();
             else APP.message.error(r.data.toString()).then();
         }, e => {
@@ -27,7 +27,7 @@ const SubmitTicketComponent = () => {
             message: "反馈为空！请不要提交空反馈"
         }, {
             message: "输入内容包含危险内容！",
-            pattern: /^(?!root|Xieyu|adminstor|admin|select|update|union|and|or|delete|insert|truncate|char|into|substr|ascii|declare|exec|count|master|drop|execute)/
+            pattern: /^(?!use|root|Xieyu|adminstor|admin|select|update|union|and|or|delete|insert|truncate|char|into|substr|ascii|declare|exec|count|master|drop|execute)/
         }]}><Input.TextArea/></Form.Item>
         <Button type="primary" htmlType="submit">SUBMIT</Button>
     </Form>

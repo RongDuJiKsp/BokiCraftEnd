@@ -11,7 +11,7 @@ export const [useLoginState, getLoginState] = createGlobalStore(function () {
 
         function login(userGameID: string, password: string): Promise<AxiosResponse> {
             return new Promise<AxiosResponse>((resolve, reject) => {
-                AxiosManager.get(UrlConfig.backendUrl + "/login", {
+                AxiosManager.get(UrlConfig.backendUrl + "/api/login", {
                     id: userGameID,
                     password: password,
                 }, {}).then(r => {
