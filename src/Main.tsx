@@ -1,8 +1,6 @@
-import SubmitTicketComponent from "./Component/SubmitTicketComponent";
-import useLoginState from "./Hooks/useLoginState";
+import HomeRouter from "./Router/HomeRouter";
 
 const Main = () => {
-    const ad = useLoginState();
-    return (<SubmitTicketComponent></SubmitTicketComponent>)
+    return (<HomeRouter/>);
 }
 export default Main;

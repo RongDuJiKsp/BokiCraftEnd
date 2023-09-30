@@ -13,9 +13,7 @@ const root = ReactDOM.createRoot(
 root.render(
     <React.StrictMode>
 
-        <DevSupport ComponentPreviews={ComponentPreviews}
-                    useInitialHook={useInitial}
-        >
+        <DevSupport ComponentPreviews={ComponentPreviews} useInitialHook={useInitial}>
             <App>
                 <HoxRoot>
                     <BrowserRouter>

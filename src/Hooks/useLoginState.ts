@@ -1,21 +1,15 @@
 import {useState} from "react";
 import AuthorityEnum from "../Enums/AuthorityEnum";
-import authorityEnum from "../Enums/AuthorityEnum";
 import {AxiosResponse} from "axios";
 import AxiosManager from "../Managers/AxiosManager";
 import UrlConfig from "../Config/UrlConfig";
 import ExceptionEnum from "../Enums/ExceptionEnum";
+import {createGlobalStore} from "hox";
+export const [useLoginState, getLoginState] = createGlobalStore(function () {
+        const [userID, setUserId] = useState<string>("");
+        const [userAuthority, setUserAuthority] = useState<AuthorityEnum>(AuthorityEnum.None);
 
-type Datas = {
-    userID: string,
-    userAuthority: authorityEnum
-}
-
-function useLoginState() {
-    const [userID, setUserId] = useState<string>("");
-    const [userAuthority, setUserAuthority] = useState<AuthorityEnum>(AuthorityEnum.None);
-    return {
-        login: function (userGameID: string, password: string): Promise<AxiosResponse> {
+        function login(userGameID: string, password: string): Promise<AxiosResponse> {
             return new Promise<AxiosResponse>((resolve, reject) => {
                 AxiosManager.get(UrlConfig.backendUrl + "/login", {
                     id: userGameID,
@@ -29,25 +23,20 @@ function useLoginState() {
                     reject(e);
                 });
             })
-        },
-        logout: function (): boolean {
+        }
+
+        function logout(): boolean {
             if (userAuthority === AuthorityEnum.None) return false;
             setUserAuthority(AuthorityEnum.None);
             setUserId("");
             return true;
-        },
-        getDatas: function (): Datas {
-            return {
-                userID: userID,
-                userAuthority: userAuthority
-            }
-        },
-        setData:(a:any,v:any)=>{
-            setUserId(a);
-            setUserAuthority(v);
         }
 
+        return {
+            userID,
+            userAuthority,
+            login,
+            logout,
+        }
     }
-}
-
-export default useLoginState;
+);
