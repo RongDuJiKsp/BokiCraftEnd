@@ -1,17 +1,23 @@
-import {Button, Form, Input} from "antd";
+import {App, Button, Form, Input} from "antd";
 import React from "react";
 import {BugOutlined, LockOutlined, UserOutlined} from "@ant-design/icons";
 import {useLoginState} from "../../../Hooks/useLoginState";
 import {useVerifyCode} from "../../../Hooks/useVerifyCode";
+import StatusCodeEnum from "../../../Enums/StatusCodeEnum";
 
 
 const LoginComponent = () => {
     const [form] = Form.useForm<string>();
     const user = useLoginState();
     const VCode = useVerifyCode();
+    const app = App.useApp();
 
     function Submit(): void {
         user.login(form.getFieldValue("userID"), form.getFieldValue("password")).then(r => {
+            if (r.data.code === StatusCodeEnum.Success) app.message.success("Welcome," + r.data.dataText).then();
+            else app.message.error("发生错误：" + r.data.msg).then();
+        }, e => {
+            app.message.error("发生错误：" + e.toString()).then();
         });
     }
 

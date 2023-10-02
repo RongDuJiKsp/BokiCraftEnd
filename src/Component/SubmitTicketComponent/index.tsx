@@ -9,9 +9,8 @@ const SubmitTicketComponent = () => {
     const APP = App.useApp();
     const Submit = () => {
         let data = new Ticket(form.getFieldValue("userName"), form.getFieldValue("context"), new Date().toString());
-        console.log(data);
         AxiosManager.post(UrlConfig.backendUrl + "/api/ticket", data, {}).then(r => {
-            if (r.data === StatusCodeEnum.Success) APP.message.success("Submit Success").then();
+            if (r.data.code === StatusCodeEnum.Success) APP.message.success("Submit Success").then();
             else APP.message.error(r.data.toString()).then();
         }, e => {
             APP.message.error(e.toString()).then();

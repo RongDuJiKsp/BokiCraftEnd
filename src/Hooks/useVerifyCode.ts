@@ -11,7 +11,7 @@ export const [useVerifyCode, getVerifyCode] = createGlobalStore(() => {
     const app = App.useApp();
     const [vCode, setVCode] = useState<vCodeBody>({url: "", code: ""});
     const [vCodeStatus, setVCodeStatus] = useState<boolean>(true);
-    const refresh = () => {
+    const refresh = (): void => {
         FunctionManager.getVerifyCode().then(r => {
             setVCode({
                 url: r.verifyCodeImgUrl,
@@ -21,9 +21,25 @@ export const [useVerifyCode, getVerifyCode] = createGlobalStore(() => {
             app.message.error("验证码生成失败：原因：" + e.toString()).then();
         })
     }
-    const verifyStr = (str: string) => {
-        if (str === "" || str === vCode.code) setVCodeStatus(true);
-        else setVCodeStatus(false);
+    const verifyStr = (str: string): boolean => {
+        str = str.toLowerCase();
+        if (str === "" || str === vCode.code) {
+            setVCodeStatus(true);
+            return true;
+        } else {
+            setVCodeStatus(false);
+            return false;
+        }
     }
-    return {vCode, vCodeStatus, refresh, verifyStr}
+    const notNullVerify = (str: string): boolean => {
+        str = str.toLowerCase();
+        if (str === vCode.code) {
+            setVCodeStatus(true);
+            return true;
+        } else {
+            setVCodeStatus(false);
+            return false;
+        }
+    }
+    return {vCode, vCodeStatus, refresh, verifyStr, notNullVerify}
 })

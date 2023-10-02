@@ -5,7 +5,7 @@ import {DevSupport} from "@react-buddy/ide-toolbox";
 import {ComponentPreviews, useInitial} from "./dev";
 import {App} from "antd";
 import {HoxRoot} from "hox";
-import RootRouter from "./Router/RootRouter";
+import Root from "./Root";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -17,7 +17,7 @@ root.render(
             <App>
                 <HoxRoot>
                     <BrowserRouter>
-                        <RootRouter/>
+                        <Root/>
                     </BrowserRouter>
                 </HoxRoot>
             </App>
