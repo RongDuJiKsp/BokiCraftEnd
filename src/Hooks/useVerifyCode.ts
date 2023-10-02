@@ -9,8 +9,9 @@ type vCodeBody = {
 }
 export const [useVerifyCode, getVerifyCode] = createGlobalStore(() => {
     const app = App.useApp();
-    const [vCode, setVCode] = useState<vCodeBody>({url: "", code: ""});
+    const [vCode, setVCode] = useState<vCodeBody>({url: "", code: "IDontWantToCommon"});
     const [vCodeStatus, setVCodeStatus] = useState<boolean>(true);
+    const [lastChecked, setLastChecked] = useState<string>("Init")
     const refresh = (): void => {
         FunctionManager.getVerifyCode().then(r => {
             setVCode({
@@ -23,6 +24,7 @@ export const [useVerifyCode, getVerifyCode] = createGlobalStore(() => {
     }
     const verifyStr = (str: string): boolean => {
         str = str.toLowerCase();
+        setLastChecked(str);
         if (str === "" || str === vCode.code) {
             setVCodeStatus(true);
             return true;
@@ -33,6 +35,7 @@ export const [useVerifyCode, getVerifyCode] = createGlobalStore(() => {
     }
     const notNullVerify = (str: string): boolean => {
         str = str.toLowerCase();
+        setLastChecked(str);
         if (str === vCode.code) {
             setVCodeStatus(true);
             return true;
@@ -41,5 +44,5 @@ export const [useVerifyCode, getVerifyCode] = createGlobalStore(() => {
             return false;
         }
     }
-    return {vCode, vCodeStatus, refresh, verifyStr, notNullVerify}
+    return {vCode, vCodeStatus, lastChecked, refresh, verifyStr, notNullVerify}
 })

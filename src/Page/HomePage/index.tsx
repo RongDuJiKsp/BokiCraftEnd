@@ -1,4 +1,4 @@
 const HomePage = () => {
-    return <div>HomePage</div>
+    return <div className={"text-3xl"}>HomePage</div>
 }
 export default HomePage;

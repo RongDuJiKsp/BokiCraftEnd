@@ -1,5 +1,5 @@
 import {App, Button, Form, Input} from "antd";
-import {BugOutlined, LockOutlined, UserOutlined} from "@ant-design/icons";
+import {LockOutlined, UserOutlined} from "@ant-design/icons";
 import React, {useState} from "react";
 import {useVerifyCode} from "../../../Hooks/useVerifyCode";
 import AxiosManager from "../../../Managers/AxiosManager";
@@ -7,6 +7,7 @@ import UrlConfig from "../../../Config/UrlConfig";
 import Account from "../../../Model/Account";
 import AuthorityEnum from "../../../Enums/AuthorityEnum";
 import StatusCodeEnum from "../../../Enums/StatusCodeEnum";
+import VerifyCodeComponent from "../../VerifyCodeComponent";
 
 const RegisterComponent = () => {
     const [form] = Form.useForm<string>();
@@ -15,7 +16,7 @@ const RegisterComponent = () => {
     const [isCommonPassword, setIsCommonPassword] = useState(true);
 
     function Submit() {
-        if (!VCode.notNullVerify(form.getFieldValue("vcode"))) return;
+        if (!VCode.notNullVerify(VCode.lastChecked)) return;
         VCode.refresh();
         if (form.getFieldValue("password") !== form.getFieldValue("repeatpassword")) {
             setIsCommonPassword(false);
@@ -45,16 +46,7 @@ const RegisterComponent = () => {
                             prefix={<LockOutlined/>}
                             onChange={() => setIsCommonPassword(true)}/>
         </Form.Item>
-        <div>
-            <Form.Item name="vcode"
-                       help={VCode.vCodeStatus ? "看不清？点击图片换一个 (不区分大小写)" : "验证码错误！请检查"}
-                       validateStatus={VCode.vCodeStatus ? "success" : "error"}>
-                <Input placeholder="VerifyCode" prefix={<BugOutlined/>} onChange={(e) => {
-                    VCode.verifyStr(e.target.value);
-                }}/>
-            </Form.Item>
-            <img onClick={VCode.refresh} alt="点击切换验证码" src={VCode.vCode.url}/>
-        </div>
+        <VerifyCodeComponent/>
         <Button type="primary" htmlType="submit">SubMit</Button>
     </Form>)
 }
