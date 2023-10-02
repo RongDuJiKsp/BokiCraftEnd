@@ -4,7 +4,6 @@ import {LockOutlined, UserOutlined} from "@ant-design/icons";
 import {useLoginState} from "../../../Hooks/useLoginState";
 import {useVerifyCode} from "../../../Hooks/useVerifyCode";
 import StatusCodeEnum from "../../../Enums/StatusCodeEnum";
-import "../../../main.css"
 import VerifyCodeComponent from "../../VerifyCodeComponent";
 
 const LoginComponent = () => {

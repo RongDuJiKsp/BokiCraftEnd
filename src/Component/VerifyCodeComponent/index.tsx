@@ -2,7 +2,6 @@ import {Col, Form, Input, Row} from "antd";
 import {BugOutlined} from "@ant-design/icons";
 import React from "react";
 import {useVerifyCode} from "../../Hooks/useVerifyCode";
-import "../../main.css"
 
 const VerifyCodeComponent = () => {
     const VCode = useVerifyCode();
