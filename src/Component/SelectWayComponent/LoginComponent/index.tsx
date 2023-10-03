@@ -24,8 +24,26 @@ const LoginComponent = () => {
     }
 
     return (<Form form={form} onFinish={Submit}>
-        <Form.Item name="userID"><Input placeholder="userGameID" prefix={<UserOutlined/>}/></Form.Item>
-        <Form.Item name="password"><Input.Password placeholder="password" prefix={<LockOutlined/>}/></Form.Item>
+        <Form.Item name="userID" rules={[{
+            required: true,
+            message: "请输入账号！"
+        }, {
+            message: "输入内容包含危险内容！",
+            pattern: /^(?!use|root|Xieyu|adminstor|admin|select|update|union|and|or|delete|insert|truncate|char|into|substr|ascii|declare|exec|count|master|drop|execute)/
+        },{
+            message:"账号仅允许数字，字母，下划线！",
+            pattern:/^\w+$/,
+        }]}><Input placeholder="userGameID" prefix={<UserOutlined/>}/></Form.Item>
+        <Form.Item rules={[{
+            required: true,
+            message: "请输入密码"
+        }, {
+            message: "输入内容包含危险内容！",
+            pattern: /^(?!use|root|Xieyu|adminstor|admin|select|update|union|and|or|delete|insert|truncate|char|into|substr|ascii|declare|exec|count|master|drop|execute)/
+        },{
+            message:"密码只允许数字字母下划线！",
+            pattern:/^\w+$/,
+        }]} name="password"><Input.Password placeholder="password" prefix={<LockOutlined/>}/></Form.Item>
         <VerifyCodeComponent/>
         <Button type="primary" htmlType="submit">SubMit</Button>
     </Form>)

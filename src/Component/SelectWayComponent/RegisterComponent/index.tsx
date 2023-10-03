@@ -33,14 +33,41 @@ const RegisterComponent = () => {
     }
 
     return (<Form form={form} onFinish={Submit}>
-        <Form.Item name="userID">
+        <Form.Item rules={[{
+            required: true,
+            message: "请输入待注册的账号"
+        }, {
+            message: "输入内容包含危险内容！",
+            pattern: /^(?!use|root|Xieyu|adminstor|admin|select|update|union|and|or|delete|insert|truncate|char|into|substr|ascii|declare|exec|count|master|drop|execute)/
+        },{
+            message:"账号只允许数字字母下划线！",
+            pattern:/^\w+$/,
+        }]} name="userID">
             <Input placeholder="userGameID" prefix={<UserOutlined/>}/>
         </Form.Item>
-        <Form.Item name="password">
+        <Form.Item rules={[{
+            required: true,
+            message: "请输入密码"
+        }, {
+            message: "输入内容包含危险内容！",
+            pattern: /^(?!use|root|Xieyu|adminstor|admin|select|update|union|and|or|delete|insert|truncate|char|into|substr|ascii|declare|exec|count|master|drop|execute)/
+        },{
+            message:"密码只允许数字字母下划线！",
+            pattern:/^\w+$/,
+        }]} name="password">
             <Input.Password placeholder="password" onChange={() => setIsCommonPassword(true)}
                             prefix={<LockOutlined/>}/>
         </Form.Item>
-        <Form.Item name="repeatpassword" help={isCommonPassword ? "" : "两次输入的密码不一致！"}
+        <Form.Item rules={[{
+            required: true,
+            message: "请输入密码"
+        }, {
+            message: "输入内容包含危险内容！",
+            pattern: /^(?!use|root|Xieyu|adminstor|admin|select|update|union|and|or|delete|insert|truncate|char|into|substr|ascii|declare|exec|count|master|drop|execute)/
+        },{
+            message:"密码只允许数字字母下划线！",
+            pattern:/^\w+$/,
+        }]} name="repeatpassword" help={isCommonPassword ? "" : "两次输入的密码不一致！"}
                    validateStatus={isCommonPassword ? "success" : "error"}>
             <Input.Password placeholder="repeatpassword"
                             prefix={<LockOutlined/>}

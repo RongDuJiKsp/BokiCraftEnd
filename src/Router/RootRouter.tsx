@@ -1,11 +1,11 @@
 import {useRoutes} from "react-router-dom";
-import SubmitTicketComponent from "../Component/SubmitTicketComponent";
 import HomePageComponent from "../Page/HomePage";
+import TicketPage from "../Page/TicketPage";
 
 const RootRouter = () => {
     return useRoutes([{
         path: "/ticket/*",
-        element: <SubmitTicketComponent/>
+        element: <TicketPage/>
     }, {
         path: "/*",
         element: <HomePageComponent/>
