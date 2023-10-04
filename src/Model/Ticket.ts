@@ -9,6 +9,7 @@ class Ticket {
     response: string;
     responseTime: string;
     tag:TicketTagEnum;
+    id:number|undefined;
 
     constructor(submitUserName: string, context: string, submitTime: string,tag:TicketTagEnum) {
         this.submitUserName = submitUserName;

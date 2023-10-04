@@ -12,16 +12,22 @@ import ProcessingStateEnum from "../../Enums/ProcessingStateEnum";
 import StatusCodeEnum from "../../Enums/StatusCodeEnum";
 import WriteResponseComponent from "../SubmitTicketComponent/WriteResponseComponent";
 import AuthorityEnum from "../../Enums/AuthorityEnum";
+import {ColumnsType} from "antd/es/table";
 
-type columnIndex = {
-    id: string,
-    title: string,
-    dataIndex: string
-    render?: (element: any, record?: any) => any
+type ticketType = {
+    submitUserName: string;
+    context: string;
+    submitTime: string;
+    pendingStatus: ProcessingStateEnum;
+    response: string;
+    responseTime: string;
+    tag: TicketTagEnum;
+    key: string;
+    id: number;
 }
 const GetTicketListComponent = () => {
     const loginState = useLoginState();
-    const [dataSources, setDataSources] = useState<Ticket[]>([]);
+    const [dataSources, setDataSources] = useState<ticketType[]>([]);
     const app = App.useApp();
     const onDelete = (element: Ticket) => {
         AxiosManager.post(UrlConfig.backendUrl + "/api/ticket/deleteone", element, {}).then(r => {
@@ -41,13 +47,18 @@ const GetTicketListComponent = () => {
 
     const freshData = () => {
         AxiosManager.post(UrlConfig.backendUrl + "/api/ticket/" + (loginState.userAuthority === AuthorityEnum.Acceptor ? "getall" : "getone"), new Account(loginState.userID)).then(r => {
-            setDataSources(r.data.listData);
+            setDataSources(r.data.listData.map(e => {
+                return {
+                    ...e,
+                    key: e.id
+                }
+            }));
         }, e => {
             app.message.error(e.toString()).then();
         })
     }
-    const columns: columnIndex[] = [{
-        id: "context",
+    const columns: ColumnsType<ticketType> = [{
+        width:"15%",
         title: "内容",
         dataIndex: "context",
         render: (e): string => {
@@ -56,22 +67,34 @@ const GetTicketListComponent = () => {
             else return str.substring(0, 8) + "....";
         }
     }, {
-        id: "submitTime",
+        width:"15%",
         title: "提交时间",
         dataIndex: "submitTime",
         render(e): string {
             const dateStr = e as string;
             return new Date(dateStr).toLocaleString();
+        },
+        sorter: (a, b) => {
+            return Date.parse(a.submitTime) - Date.parse(b.submitTime);
         }
     }, {
-        id: "pendingStatus",
+        width:"10%",
         title: "判断状态",
         dataIndex: "pendingStatus",
         render: (element) => {
             return <div className={ProcessingStateConfig[element as ProcessingStateEnum].textColor}>{element}</div>
+        },
+        filters: Object.keys(ProcessingStateEnum).map(every => {
+            return {
+                text: every,
+                value: every
+            }
+        }),
+        onFilter: (value, record) => {
+            return record.pendingStatus=== value as string;
         }
     }, {
-        id: "response",
+        width:"15%",
         title: "回复",
         dataIndex: "response",
         render: (e): string => {
@@ -81,24 +104,36 @@ const GetTicketListComponent = () => {
             else return str.substring(0, 8) + "....";
         }
     }, {
-        id: "responseTime",
+        width:"15%",
         title: "回复时间",
         dataIndex: "responseTime",
         render(e): string {
             const dateStr = e as string;
             if (dateStr === "") return "尚未得到回复";
             return new Date(dateStr).toLocaleString();
+        },
+        sorter: (a, b) => {
+            return Date.parse(a.submitTime) - Date.parse(b.submitTime);
         }
     }, {
-        id: "tag",
+        width:"10%",
         title: "标签",
         dataIndex: "tag",
         render: (element) => {
             if (element === undefined || element === null) return <></>;
             return <Tag color={TicketConfig[element as TicketTagEnum].color}>{element}</Tag>
+        },
+        filters: Object.keys(TicketTagEnum).map(every => {
+            return {
+                text: every,
+                value: every
+            }
+        }),
+        onFilter: (value, record) => {
+            return record.tag === value as string;
         }
     }, {
-        id: "action",
+        width:"20%",
         title: "操作",
         dataIndex: "action",
         render: (_, record) => {
