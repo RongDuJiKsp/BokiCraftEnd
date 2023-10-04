@@ -1,4 +1,4 @@
-import {Button, Col, Layout, Row} from "antd";
+import {Button, Col, Layout, Popover, Row} from "antd";
 import {Content, Footer, Header} from "antd/es/layout/layout";
 import RootRouter from "../../Router/RootRouter";
 import boki from "./boki.png"
@@ -10,8 +10,16 @@ const RootComponent = () => {
     const inUser = useLoginState();
     const userTip = <>
         <>Welcome , {inUser.userID}</>
-        <Button  className={"m-2"} type={"primary"} onClick={inUser.logout}>退出登录</Button>
+        <Button className={"m-2"} type={"primary"} onClick={inUser.logout}>退出登录</Button>
     </>
+    const hoverList3 = <div className={"h-20 w-36"}>
+        <NavLink to={"/ticket?p=0"}>
+            <div className={"h-12 text-center"}>提交新的反馈</div>
+        </NavLink>
+        <NavLink to={"/ticket?p=1"}>
+            <div className={"h-14 text-center"}>查看提交的所有反馈</div>
+        </NavLink>
+    </div>
     return <Layout>
         <Header className={"bg-white h-24 pt-4 pb-6 overflow-hidden"}>
             <Row>
@@ -47,12 +55,14 @@ const RootComponent = () => {
                     </NavLink>
                 </Col>
                 <Col span={2} className={"text-center"}>
-                    <NavLink to={"/ticket"} className={(props) => {
-                        if (props.isActive) return " text-blue-400 hover:text-green-500";
-                        else return "text-red-300 hover:text-yellow-600";
-                    }}>
-                        <p className={"text-xl  pt-3 pb-4 m-0"}>提交反馈</p>
-                    </NavLink>
+                    <Popover placement={"bottom"} trigger={"hover"} content={hoverList3}>
+                        <NavLink to={"/ticket?p=0"} className={(props) => {
+                            if (props.isActive) return " text-blue-400 hover:text-green-500";
+                            else return "text-red-300 hover:text-yellow-600";
+                        }}>
+                            <p className={"text-xl  pt-3 pb-4 m-0"}>提交反馈</p>
+                        </NavLink>
+                    </Popover>
                 </Col>
                 <Col span={8} className={"text-center text-pink-400 align-bottom pt-1 text-xl"}>
                     {inUser.userAuthority === AuthorityEnum.None ? <></> : userTip}

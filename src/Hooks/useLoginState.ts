@@ -17,10 +17,12 @@ export const [useLoginState, getLoginState] = createGlobalStore(function () {
             return new Promise<AxiosResponse<BackendBody>>((resolve, reject) => {
                 AxiosManager.post(UrlConfig.backendUrl + "/api/account/login", new Account(userGameID, password), {}).then(r => {
                     if (r.data.dataText === AuthorityEnum.None) reject(ExceptionEnum.MessageNotFoundException);
-                    if (r.data.code === StatusCodeEnum.Fatal) reject(r.data.msg);
-                    setUserId(userGameID);
-                    setUserAuthority(r.data.dataText as AuthorityEnum);
-                    resolve(r);
+                    else if (r.data.code === StatusCodeEnum.Fatal) reject(r.data.msg);
+                    else {
+                        setUserId(userGameID);
+                        setUserAuthority(r.data.dataText as AuthorityEnum);
+                        resolve(r);
+                    }
                 }, e => {
                     reject(e);
                 });

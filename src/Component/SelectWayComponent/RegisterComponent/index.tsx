@@ -24,7 +24,6 @@ const RegisterComponent = () => {
         }
         setIsCommonPassword(true);
         AxiosManager.post(UrlConfig.backendUrl + "/api/account/register", new Account(form.getFieldValue("userID"), form.getFieldValue("password"), AuthorityEnum.Asker)).then(r => {
-            console.log(r.data);
             if (r.data.code === StatusCodeEnum.Success) app.message.success("注册成功！").then();
             else app.message.error("注册失败，原因:  " + r.data.msg).then();
         }, e => {

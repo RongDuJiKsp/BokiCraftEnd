@@ -5,10 +5,10 @@ class Account {
     password: string;
     authority: AuthorityEnum;
 
-    constructor(userID: string, password: string, authority?: AuthorityEnum) {
+    constructor(userID: string, password?: string, authority?: AuthorityEnum) {
         if (authority === undefined) this.authority = AuthorityEnum.None;
         else this.authority = authority;
-        this.password = password;
+        this.password = password === undefined ? "" : password;
         this.userID = userID;
     }
 }
