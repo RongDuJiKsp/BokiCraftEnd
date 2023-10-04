@@ -11,6 +11,7 @@ import ProcessingStateConfig from "../../Config/ProcessingStateConfig";
 import ProcessingStateEnum from "../../Enums/ProcessingStateEnum";
 import StatusCodeEnum from "../../Enums/StatusCodeEnum";
 import WriteResponseComponent from "../SubmitTicketComponent/WriteResponseComponent";
+import AuthorityEnum from "../../Enums/AuthorityEnum";
 
 type columnIndex = {
     id: string,
@@ -34,12 +35,12 @@ const GetTicketListComponent = () => {
     }
     const onWatch = (element: Ticket) => {
         app.modal.info({
-           content:<WriteResponseComponent element={element} toFresh={freshData}/>
+            content: <WriteResponseComponent element={element} toFresh={freshData}/>
         });
     }
 
     const freshData = () => {
-        AxiosManager.post(UrlConfig.backendUrl + "/api/ticket/getbyname", new Account(loginState.userID)).then(r => {
+        AxiosManager.post(UrlConfig.backendUrl + "/api/ticket/" + (loginState.userAuthority === AuthorityEnum.Acceptor ? "getall" : "getone"), new Account(loginState.userID)).then(r => {
             setDataSources(r.data.listData);
         }, e => {
             app.message.error(e.toString()).then();
