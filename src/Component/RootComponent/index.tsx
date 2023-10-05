@@ -12,6 +12,10 @@ const RootComponent = () => {
         <>Welcome , {inUser.userID}</>
         <Button className={"m-2"} type={"primary"} onClick={inUser.logout}>退出登录</Button>
     </>
+    const hoverList2 = <div className={"h-20 w-36"}>
+        <a href={"/e"} rel="noreferrer" target={"_blank"}><div className={"h-12 text-center text-green-400 hover:text-blue-500 duration-200"}>下载客户端</div></a>
+        <a href={"/e"} rel="noreferrer" target={"_blank"}><div className={"h-14 text-center text-green-400 hover:text-blue-500 duration-200"}>下载运行时环境</div></a>
+    </div>
     const hoverList3 = <div className={"h-20 w-36"}>
         <NavLink to={"/ticket?p=0"}>
             <div className={"h-12 text-center"}>提交新的反馈</div>
@@ -47,12 +51,14 @@ const RootComponent = () => {
                     </NavLink>
                 </Col>
                 <Col span={2} className={"text-center"}>
-                    <NavLink to={"/download"} className={(props) => {
-                        if (props.isActive) return " text-blue-400 hover:text-green-500";
-                        else return "text-red-300 hover:text-yellow-600";
-                    }}>
-                        <p className={"text-xl  pt-3 pb-4 m-0"}>下载资源</p>
-                    </NavLink>
+                    <Popover placement={"bottom"} trigger={"hover"} content={hoverList2}>
+                        <NavLink to={"/download"} className={(props) => {
+                            if (props.isActive) return " text-blue-400 hover:text-green-500";
+                            else return "text-red-300 hover:text-yellow-600";
+                        }}>
+                            <p className={"text-xl  pt-3 pb-4 m-0"}>下载资源</p>
+                        </NavLink>
+                    </Popover>
                 </Col>
                 <Col span={2} className={"text-center"}>
                     <Popover placement={"bottom"} trigger={"hover"} content={hoverList3}>
