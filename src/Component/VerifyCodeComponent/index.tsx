@@ -9,7 +9,7 @@ const VerifyCodeComponent = () => {
         <Col span={8}>
             <Form.Item help={VCode.vCodeStatus ? "看不清？点击图片换一个 (不区分大小写)" : "验证码错误！请检查"}
                        validateStatus={VCode.vCodeStatus ? "success" : "error"}>
-                <Input placeholder="VerifyCode" prefix={<BugOutlined/>} onChange={(e) => {
+                <Input allowClear placeholder="VerifyCode" prefix={<BugOutlined/>} onChange={(e) => {
                     VCode.verifyStr(e.target.value);
                 }}/></Form.Item>
         </Col>

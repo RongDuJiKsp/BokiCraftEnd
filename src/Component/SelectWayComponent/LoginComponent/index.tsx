@@ -33,7 +33,7 @@ const LoginComponent = () => {
         },{
             message:"账号仅允许数字，字母，下划线！",
             pattern:/^\w+$/,
-        }]}><Input placeholder="userGameID" prefix={<UserOutlined/>}/></Form.Item>
+        }]}><Input allowClear placeholder="userGameID" prefix={<UserOutlined/>}/></Form.Item>
         <Form.Item rules={[{
             required: true,
             message: "请输入密码"
@@ -43,7 +43,7 @@ const LoginComponent = () => {
         },{
             message:"密码只允许数字字母下划线！",
             pattern:/^\w+$/,
-        }]} name="password"><Input.Password placeholder="password" prefix={<LockOutlined/>}/></Form.Item>
+        }]} name="password"><Input.Password placeholder="password" allowClear prefix={<LockOutlined/>}/></Form.Item>
         <VerifyCodeComponent/>
         <Button type="primary" htmlType="submit">SubMit</Button>
     </Form>)

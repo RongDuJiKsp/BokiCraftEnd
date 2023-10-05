@@ -42,7 +42,7 @@ const RegisterComponent = () => {
             message:"账号只允许数字字母下划线！",
             pattern:/^\w+$/,
         }]} name="userID">
-            <Input placeholder="userGameID" prefix={<UserOutlined/>}/>
+            <Input placeholder="userGameID" allowClear prefix={<UserOutlined/>}/>
         </Form.Item>
         <Form.Item rules={[{
             required: true,
@@ -54,7 +54,7 @@ const RegisterComponent = () => {
             message:"密码只允许数字字母下划线！",
             pattern:/^\w+$/,
         }]} name="password">
-            <Input.Password placeholder="password" onChange={() => setIsCommonPassword(true)}
+            <Input.Password placeholder="password" allowClear onChange={() => setIsCommonPassword(true)}
                             prefix={<LockOutlined/>}/>
         </Form.Item>
         <Form.Item rules={[{
@@ -68,7 +68,7 @@ const RegisterComponent = () => {
             pattern:/^\w+$/,
         }]} name="repeatpassword" help={isCommonPassword ? "" : "两次输入的密码不一致！"}
                    validateStatus={isCommonPassword ? "success" : "error"}>
-            <Input.Password placeholder="repeatpassword"
+            <Input.Password placeholder="repeatpassword" allowClear
                             prefix={<LockOutlined/>}
                             onChange={() => setIsCommonPassword(true)}/>
         </Form.Item>
