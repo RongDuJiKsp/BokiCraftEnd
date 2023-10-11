@@ -1,5 +1,5 @@
-import {Badge, Card, Carousel, Col, Row, Statistic} from "antd";
-import React, {ReactNode} from "react";
+import {Avatar, Badge, Card, Carousel, Col, List, Row, Space, Statistic, Tag} from "antd";
+import React, {ReactNode, useState} from "react";
 import cpu from "./cpu.png"
 import chat from "./qp.png"
 import update from "./update.png"
@@ -7,8 +7,11 @@ import connect from "./connect.png"
 import game from "./game.png"
 import CountUp from "react-countup";
 import backup from "./backup.jpg";
+import Contribute from "../../Model/Contribute";
 
 const AboutPage = () => {
+    const [cardList, setCardList] = useState<Contribute[]>([new Contribute(1, "tag1", "tag2", "", "", "userName", "king", "", 22, true, 3, ""),new Contribute(1, "tag1", "tag2", "", "", "userName", "king", "", 22, true, 3, ""),new Contribute(1, "tag1", "tag2", "", "", "userName", "king", "", 22, true, 3, ""),new Contribute(1, "tag1", "tag2", "", "", "userName", "king", "", 22, true, 3, ""),new Contribute(1, "tag1", "tag2", "", "", "userName", "king", "", 22, true, 3, ""),new Contribute(1, "tag1", "tag2", "", "", "userName", "king", "", 22, true, 3, "")]);
+    const [commitList, setCommitList] = useState<Contribute[]>([new Contribute(1,"","","","","BoBo","King","date",111,false,2,"999")]);
     const contentStyle: React.CSSProperties = {
         height: '320px',
         color: '#fff',
@@ -19,6 +22,24 @@ const AboutPage = () => {
     const formatter: (value: any) => ReactNode = (value: number) => {
         return <CountUp end={value} separator=","/>;
     };
+    const showListRender = (item: Contribute, index: number) => {
+        const card = <Card hoverable={true} className={"my-8 mx-4"}
+                           cover={<img alt="tttt"
+                                       src={"https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"}/>}>
+            <Space><Tag color={"gold"}>主tag</Tag> <Tag color={"orange"}>辅助tag</Tag></Space>
+            <h1>标题</h1>
+            <Card.Meta avatar={<Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel"/>} title={"A sexy MTF"}
+                       description={"I am a mtf"}></Card.Meta>
+        </Card>
+        const commit = <Card></Card>
+        return item.hasPicture ? card : commit;
+    }
+    const refreshCardList = () => {
+
+    }
+    const refreshCommitList = () => {
+
+    }
     return <>
         <Carousel className={"mb-6"} autoplay={true} effect={"fade"} dotPosition={"bottom"} dots={true}
                   autoplaySpeed={2500}>
@@ -106,6 +127,20 @@ const AboutPage = () => {
                 </Card>
             </Col>
         </Row>
+        <div className={"mx-16"}>
+            <h1>照片展示</h1>
+            <h3 className={"text-gray-600"}><strong>(不定期更新)</strong> 可以向腐竹投稿自己的精美截图，征集各类照片</h3>
+            <List pagination={{position: 'bottom', align: 'end',pageSize:6,showTotal:(total, range) => `${range[0]}-${range[1]} of ${total} items`}} grid={{column: 3}} renderItem={showListRender}
+                  dataSource={cardList} />
+        </div>
+        <div className={"bg-blue-50 text-center py-16 my-4"}>
+            <h1>收到的玩家反馈</h1>
+            <div className={"mx-16"} >
+                <List pagination={{position: 'bottom', align: 'start',pageSize:3,simple:true}} grid={{column: 3}} renderItem={showListRender}
+                      dataSource={commitList}/>
+            </div>
+        </div>
+
     </>
 }
 export default AboutPage;
