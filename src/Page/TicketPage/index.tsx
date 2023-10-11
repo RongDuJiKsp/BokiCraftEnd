@@ -10,7 +10,12 @@ const TicketPage = () => {
     const [param] = useSearchParams();
     const extra = <>
         <Col span={8} className={"bg-amber-100  text-center"}>
-            <div>your ticket make me berttrt</div>
+            <div className={"my-16 text-3xl text-gray-600"}>您的反馈会使得我们做的更好！</div>
+            <div className={"my-16 text-3xl text-gray-700"}>
+                <p>广告位招租，详情请发邮件至下面邮箱</p>
+                <p>rdjksp@gmail.com</p>
+                <p>rdjksp@qq.com</p>
+            </div>
         </Col>
         <Col span={2}></Col>
     </>
