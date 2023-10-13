@@ -1,22 +1,20 @@
-import {Radio, RadioChangeEvent} from "antd";
-import {useState} from "react";
+import {Tabs, TabsProps} from "antd";
 import LoginComponent from "./LoginComponent";
 import RegisterComponent from "./RegisterComponent";
 
 const HomePageComponent = () => {
-    const [loginOrRegister, setLoginAndRegister] = useState<number>(0);
-    const routerTable = [<LoginComponent/>, <RegisterComponent/>]
-
-    function onChange(e: RadioChangeEvent) {
-        setLoginAndRegister(e.target.value);
-    }
-
-    return (<>
-        <Radio.Group defaultValue={0} buttonStyle="solid" onChange={onChange}>
-            <Radio.Button value={0}>登录</Radio.Button>
-            <Radio.Button value={1}>注册</Radio.Button>
-        </Radio.Group>
-        {routerTable[loginOrRegister]}
-    </>)
+    const items: TabsProps['items'] = [
+        {
+            key: '1',
+            label: '登录----提交工单',
+            children: <LoginComponent/>,
+        },
+        {
+            key: '2',
+            label: '注册----加入我们',
+            children: <RegisterComponent/>,
+        }
+    ];
+    return (<Tabs defaultActiveKey="1" items={items}/>)
 }
 export default HomePageComponent;

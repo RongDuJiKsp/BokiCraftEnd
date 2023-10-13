@@ -8,7 +8,7 @@ import UrlConfig from "../../Config/UrlConfig";
 const HomePage = () => {
     const stat = useLoginState();
     const loginWindow =
-        <Col span={8} className={"bg-purple-300/30 p-3 rounded-lg border-8 border-purple-400 h-[340px]"}>
+        <Col span={8} className={"bg-purple-300/30 p-3 rounded-lg border-8 border-purple-400 h-[400px]"}>
             <SelectWayComponent/>
         </Col>
     const nullWindow =
