@@ -6,8 +6,9 @@ import update from "./update.png"
 import connect from "./connect.png"
 import game from "./game.png"
 import backup from "./backup.jpg"
+import mtf from "./mtf.png"
+import BG3 from "./BG3.jpg"
 import CountUp from "react-countup";
-import ObjManager from "../../Managers/ObjManager";
 
 const ShowAdsComponent = () => {
     const formatter: (value: any) => ReactNode = (value: number) => {
@@ -36,7 +37,7 @@ const ShowAdsComponent = () => {
     ];
 
     return (<>
-        <Carousel className={"mb-6"} autoplay={true}  dotPosition={"bottom"} dots={true}
+        <Carousel className={"mb-6"} autoplay={true} dotPosition={"bottom"} dots={true}
                   autoplaySpeed={2500}>
             {toShow}
         </Carousel>
@@ -82,6 +83,39 @@ const ShowAdsComponent = () => {
                     <img alt="" src={game} className={"h-16 mt-6 w-16"}/>
                     <p className={"text-center text-white text-xs"}>人多就卡的玩家基数</p>
                 </div>
+            </Col>
+        </Row>
+        <Row className={"my-28"}>
+            <Col span={6} offset={1}>
+                <Card hoverable={true}>
+                    <div className={"w-full h-full static"}>
+                        <div className={"bg-blue-300 rounded-xl absolute mt-80 ml-24 h-32 w-48"}>
+                            <div className={"w-full rounded-b-xl h-[75%] mt-[20%] bg-purple-400 text-center"}>
+                                <p className={"text-white text-xl mt-9"}>腐竹是MTF</p>
+                                <p className={"text-yellow-200"}>BokiCraft-服主</p>
+                            </div>
+                        </div>
+                        <img alt={"腐竹是mtf"} src={mtf} className={"w-full h-full"}/>
+                    </div>
+                </Card>
+            </Col>
+            <Col span={8}>
+                <Card hoverable>
+                    <div className={"w-full h-full bg-blue-300 text-center pt-8"}>
+                        <h2 className={"text-white text-4xl my-16"}>关于我们的基本信息</h2>
+                        <h4 className={"text-yellow-400 text-2xl my-16"}>服务器包括但不限于拥有以下MOD:</h4>
+                        <p className={"text-white text-xl pb-20"}>
+                            机械动力 | 沉浸工程 | 车万女仆 | 龙之研究<br/>
+                            热力膨胀 | 时装工坊 | 无尽贪婪 | 星辉魔法<br/>
+                            潘马斯 | 暮色森林 | 应用能源 | 植物魔法及附属等等<br/>
+                        </p>
+                    </div>
+                </Card>
+            </Col>
+            <Col span={8}>
+                <Card hoverable>
+                    <img alt={"腐竹是mtf"} src={BG3} className={"w-full h-full"}/>
+                </Card>
             </Col>
         </Row>
         <Row className={"m-16"}>
