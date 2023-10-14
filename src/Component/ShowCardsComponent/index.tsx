@@ -1,5 +1,5 @@
 import {App, Avatar, Button, Card, Col, Image, List, Modal, Rate, Row, Space, Tag} from "antd";
-import React, {useEffect, useRef, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import Contribute from "../../Model/Contribute";
 import SubmitContributeComponent from "./SubmitContributeComponent";
 import AxiosManager from "../../Managers/AxiosManager";
@@ -15,7 +15,7 @@ const ShowCardsComponent = () => {
     const [cardList, setCardList] = useState<Contribute[]>([]);
     const [commitList, setCommitList] = useState<Contribute[]>([]);
     const [mapping, setMapping] = useState<Map<number, boolean>>(new Map<number, boolean>());
-    const refreshCardList = async () => {
+    const refreshCardList = useCallback(async () => {
         console.log("rrrr");
         try {
             const response = await AxiosManager.get(UrlConfig.backendUrl + "/api/contribute/getcard", {}, {});
@@ -30,8 +30,8 @@ const ShowCardsComponent = () => {
         } catch (e: any) {
             app.message.error(e.toString());
         }
-    }
-    const refreshCommitList =async () => {
+    }, [app.message])
+    const refreshCommitList = useCallback(async () => {
         console.log("rrrr");
         try {
             const response = await AxiosManager.get(UrlConfig.backendUrl + "/api/contribute/getcommit", {}, {});
@@ -41,19 +41,19 @@ const ShowCardsComponent = () => {
         } catch (e: any) {
             app.message.error(e.toString());
         }
-    }
+    }, [app.message]);
     useEffect(() => {
-        refreshCardList()
-        refreshCommitList();
-    },[]);
-    const onLiked = (that: Contribute) => {
+        refreshCardList().then();
+        refreshCommitList().then();
+    }, [refreshCardList, refreshCommitList]);
+    const onLiked = useCallback((that: Contribute) => {
         AxiosManager.post(UrlConfig.backendUrl + "/api/contribute/like", that, {}).then();
         setMapping(mp => {
             mp.set(that.id, true);
             return new Map<number, boolean>(mp);
         })
-    }
-    const showListRender = (item: Contribute, index: number) => {
+    }, []);
+    const showListRender = useCallback((item: Contribute, index: number) => {
         const card = <Card hoverable={true} className={"my-8 mx-4"}
                            cover={<Image src={item.showBase64}/>}>
             <Space><Tag color={"gold"}>{item.mainTag}</Tag> <Tag color={"orange"}>{item.othTag}</Tag></Space>
@@ -93,7 +93,7 @@ const ShowCardsComponent = () => {
             </p>
         </Card>
         return item.hasPicture ? card : commit;
-    }
+    }, [mapping,onLiked])
     return (<>
         <div className={"mx-16"}>
             <h1>照片展示</h1>
