@@ -5,6 +5,7 @@ import boki from "./boki.png"
 import {NavLink} from "react-router-dom";
 import {useLoginState} from "../../Hooks/useLoginState";
 import AuthorityEnum from "../../Enums/AuthorityEnum";
+import UrlConfig from "../../Config/UrlConfig";
 
 const RootComponent = () => {
     const inUser = useLoginState();
@@ -13,8 +14,12 @@ const RootComponent = () => {
         <Button className={"m-2"} type={"primary"} onClick={inUser.logout}>退出登录</Button>
     </>
     const hoverList2 = <div className={"h-20 w-36"}>
-        <a href={"/e"} rel="noreferrer" target={"_blank"}><div className={"h-12 text-center text-green-400 hover:text-blue-500 duration-200"}>下载客户端</div></a>
-        <a href={"/e"} rel="noreferrer" target={"_blank"}><div className={"h-14 text-center text-green-400 hover:text-blue-500 duration-200"}>下载运行时环境</div></a>
+        <a href={UrlConfig.bokiFastDownloadUrl} rel="noreferrer" target={"_blank"}>
+            <div className={"h-12 text-center text-green-400 hover:text-blue-500 duration-200"}>下载客户端</div>
+        </a>
+        <a href={UrlConfig.javaUrl} rel="noreferrer" target={"_blank"}>
+            <div className={"h-14 text-center text-green-400 hover:text-blue-500 duration-200"}>下载运行时环境</div>
+        </a>
     </div>
     const hoverList3 = <div className={"h-20 w-36"}>
         <NavLink to={"/ticket?p=0"}>
