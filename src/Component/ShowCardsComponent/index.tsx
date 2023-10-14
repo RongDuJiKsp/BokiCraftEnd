@@ -1,5 +1,5 @@
-import {App, Avatar, Button, Card, Col, Image, List, Modal, Rate, Row, Space, Tag} from "antd";
-import React, {useCallback, useEffect, useRef, useState} from "react";
+import {App, Avatar, Button, Card, Carousel, Col, Image, List, Modal, Rate, Row, Space, Tag} from "antd";
+import React, {JSX, useCallback, useEffect, useRef, useState} from "react";
 import Contribute from "../../Model/Contribute";
 import SubmitContributeComponent from "./SubmitContributeComponent";
 import AxiosManager from "../../Managers/AxiosManager";
@@ -51,9 +51,9 @@ const ShowCardsComponent = () => {
             return new Map<number, boolean>(mp);
         })
     }, []);
-    const showListRender = useCallback((item: Contribute) => {
-        const card = <Card hoverable={true} className={"my-8 mx-4"}
-                           cover={<Image src={item.showBase64}/>}>
+    const showListRender = useCallback((item: Contribute): JSX.Element => {
+        const card: JSX.Element = <Card hoverable={true} className={"my-8 mx-4"}
+                                        cover={<Image src={item.showBase64}/>}>
             <Space><Tag color={"gold"}>{item.mainTag}</Tag> <Tag color={"orange"}>{item.othTag}</Tag></Space>
             <h1>{item.commit}</h1>
             <Row>
@@ -76,13 +76,13 @@ const ShowCardsComponent = () => {
                 {item.dateStr}
             </Space>
         </Card>
-        const commit = <Card className={"my-8 mx-4"}>
+        const commit: JSX.Element = <Card className={"my-8 mx-4"}>
             <Row>
-                <Col span={4}>
+                <Col span={5}>
                     <Card.Meta avatar={<Avatar src={item.headBase64}/>} title={item.userName}
                                description={item.commitName}></Card.Meta>
                 </Col>
-                <Col span={8} offset={12}>
+                <Col span={8} offset={10}>
                     <Rate disabled allowHalf value={item.starCnt}/>
                 </Col>
             </Row>
@@ -91,7 +91,23 @@ const ShowCardsComponent = () => {
             </p>
         </Card>
         return item.hasPicture ? card : commit;
-    }, [mapping,onLiked])
+    }, [mapping, onLiked])
+    const makeAList = useCallback((cardList: JSX.Element[]): JSX.Element[] => {
+        let res: JSX.Element[] = [];
+        for (let i = 0; i < cardList.length; i += 2) {
+            res.push(<>
+                <Row>
+                    <Col span={12}>
+                        {cardList[i]}
+                    </Col>
+                    <Col span={12}>
+                        {i + 1 < cardList.length ? cardList[i + 1] : <></>}
+                    </Col>
+                </Row>
+            </>)
+        }
+        return res;
+    }, []);
     return (<>
         <div className={"mx-16"}>
             <h1>照片展示</h1>
@@ -108,9 +124,9 @@ const ShowCardsComponent = () => {
         <div className={"bg-blue-50 text-center py-16 my-4"}>
             <h1>收到的玩家反馈</h1>
             <div className={"mx-16"}>
-                <List pagination={{position: 'bottom', align: 'start', pageSize: 2, simple: true}} grid={{column: 2}}
-                      renderItem={showListRender}
-                      dataSource={commitList}/>
+                <Carousel autoplay={true} autoplaySpeed={2500} dotPosition={"bottom"} dots={true}>
+                    {makeAList(commitList.map(every => showListRender(every)))}
+                </Carousel>
             </div>
         </div>
         <Modal title="创建一个投稿" open={isModalOpen} onCancel={() => setIsModalOpen(false)} onOk={() => {
