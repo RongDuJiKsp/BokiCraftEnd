@@ -1,4 +1,4 @@
-import {App, Avatar, Button, Card, Col, Image, List, Modal, Row, Space, Tag} from "antd";
+import {App, Avatar, Button, Card, Col, Image, List, Modal, Rate, Row, Space, Tag} from "antd";
 import React, {useEffect, useRef, useState} from "react";
 import Contribute from "../../Model/Contribute";
 import SubmitContributeComponent from "./SubmitContributeComponent";
@@ -14,25 +14,44 @@ const ShowCardsComponent = () => {
     const [isModelLoading, setIsModelLoading] = useState<boolean>(false)
     const [cardList, setCardList] = useState<Contribute[]>([]);
     const [commitList, setCommitList] = useState<Contribute[]>([]);
+    const [mapping, setMapping] = useState<Map<number, boolean>>(new Map<number, boolean>());
     const refreshCardList = async () => {
+        console.log("rrrr");
         try {
             const response = await AxiosManager.get(UrlConfig.backendUrl + "/api/contribute/getcard", {}, {});
             if (response.data.code === StatusCodeEnum.Success) {
                 setCardList(response.data.listData);
+                let mapped = new Map<number, boolean>();
+                response.data.listData.forEach(e => {
+                    mapped.set((e as Contribute).id, false);
+                })
+                setMapping(mapped);
             } else app.message.error(response.data.msg);
         } catch (e: any) {
             app.message.error(e.toString());
         }
     }
-    const refreshCommitList = () => {
-        setCommitList([new Contribute(1, "", "", "", "", "BoBo", "King", "date", 111, false, 2, "999")]);
+    const refreshCommitList =async () => {
+        console.log("rrrr");
+        try {
+            const response = await AxiosManager.get(UrlConfig.backendUrl + "/api/contribute/getcommit", {}, {});
+            if (response.data.code === StatusCodeEnum.Success) {
+                setCommitList(response.data.listData);
+            } else app.message.error(response.data.msg);
+        } catch (e: any) {
+            app.message.error(e.toString());
+        }
     }
     useEffect(() => {
-        refreshCommitList();
         refreshCardList()
-    }, []);
+        refreshCommitList();
+    },[]);
     const onLiked = (that: Contribute) => {
-        AxiosManager.post(UrlConfig.backendUrl+"/api/contribute/like",that,{}).then();
+        AxiosManager.post(UrlConfig.backendUrl + "/api/contribute/like", that, {}).then();
+        setMapping(mp => {
+            mp.set(that.id, true);
+            return new Map<number, boolean>(mp);
+        })
     }
     const showListRender = (item: Contribute, index: number) => {
         const card = <Card hoverable={true} className={"my-8 mx-4"}
@@ -46,7 +65,7 @@ const ShowCardsComponent = () => {
                 </Col>
                 <Col span={6} offset={6}>
                     <Space>
-                        <LikeTwoTone twoToneColor={true ? "red" : "blue"} onClick={() =>{
+                        <LikeTwoTone twoToneColor={mapping.get(item.id) ? "red" : "blue"} onClick={() => {
                             onLiked(item);
                             item.liked++;
                         }}/>
@@ -59,8 +78,19 @@ const ShowCardsComponent = () => {
                 {item.dateStr}
             </Space>
         </Card>
-        const commit = <Card>
-
+        const commit = <Card className={"my-8 mx-4"}>
+            <Row>
+                <Col span={4}>
+                    <Card.Meta avatar={<Avatar src={item.headBase64}/>} title={item.userName}
+                               description={item.commitName}></Card.Meta>
+                </Col>
+                <Col span={8} offset={12}>
+                    <Rate disabled allowHalf value={item.starCnt}/>
+                </Col>
+            </Row>
+            <p>
+                {item.commit}
+            </p>
         </Card>
         return item.hasPicture ? card : commit;
     }
@@ -80,7 +110,7 @@ const ShowCardsComponent = () => {
         <div className={"bg-blue-50 text-center py-16 my-4"}>
             <h1>收到的玩家反馈</h1>
             <div className={"mx-16"}>
-                <List pagination={{position: 'bottom', align: 'start', pageSize: 3, simple: true}} grid={{column: 3}}
+                <List pagination={{position: 'bottom', align: 'start', pageSize: 2, simple: true}} grid={{column: 2}}
                       renderItem={showListRender}
                       dataSource={commitList}/>
             </div>
