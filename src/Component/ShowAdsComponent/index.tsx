@@ -7,6 +7,7 @@ import connect from "./connect.png"
 import game from "./game.png"
 import backup from "./backup.jpg"
 import CountUp from "react-countup";
+import ObjManager from "../../Managers/ObjManager";
 
 const ShowAdsComponent = () => {
     const formatter: (value: any) => ReactNode = (value: number) => {
@@ -19,21 +20,25 @@ const ShowAdsComponent = () => {
         textAlign: 'center',
         background: '#364d79',
     };
+    const toShow = [
+        <div>
+            <h3 style={contentStyle}>1</h3>
+        </div>,
+        <div>
+            <h3 style={contentStyle}>2</h3>
+        </div>,
+        <div>
+            <h3 style={contentStyle}>3</h3>
+        </div>,
+        <div>
+            <h3 style={contentStyle}>4</h3>
+        </div>
+    ];
+
     return (<>
-        <Carousel className={"mb-6"} autoplay={true} effect={"fade"} dotPosition={"bottom"} dots={true}
+        <Carousel className={"mb-6"} autoplay={true}  dotPosition={"bottom"} dots={true}
                   autoplaySpeed={2500}>
-            <div>
-                <h3 style={contentStyle}>1</h3>
-            </div>
-            <div>
-                <h3 style={contentStyle}>2</h3>
-            </div>
-            <div>
-                <h3 style={contentStyle}>3</h3>
-            </div>
-            <div>
-                <h3 style={contentStyle}>4</h3>
-            </div>
+            {toShow}
         </Carousel>
         <div className={"text-center"}>
             <h1 className={"text-5xl"}>我们的</h1>

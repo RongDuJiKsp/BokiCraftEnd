@@ -16,7 +16,6 @@ const ShowCardsComponent = () => {
     const [commitList, setCommitList] = useState<Contribute[]>([]);
     const [mapping, setMapping] = useState<Map<number, boolean>>(new Map<number, boolean>());
     const refreshCardList = useCallback(async () => {
-        console.log("rrrr");
         try {
             const response = await AxiosManager.get(UrlConfig.backendUrl + "/api/contribute/getcard", {}, {});
             if (response.data.code === StatusCodeEnum.Success) {
@@ -32,7 +31,6 @@ const ShowCardsComponent = () => {
         }
     }, [app.message])
     const refreshCommitList = useCallback(async () => {
-        console.log("rrrr");
         try {
             const response = await AxiosManager.get(UrlConfig.backendUrl + "/api/contribute/getcommit", {}, {});
             if (response.data.code === StatusCodeEnum.Success) {
@@ -53,7 +51,7 @@ const ShowCardsComponent = () => {
             return new Map<number, boolean>(mp);
         })
     }, []);
-    const showListRender = useCallback((item: Contribute, index: number) => {
+    const showListRender = useCallback((item: Contribute) => {
         const card = <Card hoverable={true} className={"my-8 mx-4"}
                            cover={<Image src={item.showBase64}/>}>
             <Space><Tag color={"gold"}>{item.mainTag}</Tag> <Tag color={"orange"}>{item.othTag}</Tag></Space>
